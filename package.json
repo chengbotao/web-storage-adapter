@@ -1,0 +1,44 @@
+{
+	"name": "web-storage-adapter",
+	"version": "1.0.0",
+	"description": "用于适配 Web 存储的适配器, 将 LocalStorage 和 SessionStorage 的接口转换为统一的接口, 以便于使用和管理",
+	"main": "dist/index.umd.js",
+	"module": "dist/index.esm.js",
+	"types": "types/index.d.ts",
+	"scripts": {
+		"build": "npm run clean && rollup --config rollup.config.ts --configPlugin typescript",
+		"clean": "rimraf dist"
+	},
+	"keywords": [
+		"storage",
+		"SessionStorage",
+		"LocalStorage"
+	],
+	"repository": "git@github.com:chengbotao/web-storage-adapter.git",
+	"homepage": "https://chengbotao.github.io/web-storage-adapter/",
+	"bugs": {
+		"url": "https://github.com/chengbotao/web-storage-adapter/issues",
+		"email": "chengbotao5221@163.com"
+	},
+	"author": "chengbotao <chengbotao5221@163.com>",
+	"contributors": [
+		{
+			"name": "chengbotao",
+			"email": "chengbotao5221@163.com",
+			"url": "https://chengbotao.github.io/chengbotao/"
+		}
+	],
+	"license": "MIT",
+	"files": [
+		"dist"
+	],
+	"devDependencies": {
+		"@rollup/plugin-commonjs": "^25.0.7",
+		"@rollup/plugin-typescript": "^11.1.5",
+		"rimraf": "^5.0.5",
+		"rollup": "^4.9.2",
+		"rollup-plugin-dts": "^6.1.0",
+		"tslib": "^2.6.2",
+		"typescript": "^5.3.3"
+	}
+}
