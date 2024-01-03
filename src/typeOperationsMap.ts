@@ -47,4 +47,56 @@ export const typeOperations: Map<string, TypeOperation> = new Map([
 			},
 		},
 	],
+	[
+		"Null",
+		{
+			deserialize: (value: unknown) => null,
+			serialize: (value: unknown) => {
+				return JSON.stringify({ type: "Null", value: value });
+			},
+		},
+	],
+	[
+		"Undefined",
+		{
+			deserialize: (value: unknown) => undefined,
+			serialize: (value: unknown) => {
+				return JSON.stringify({ type: "Undefined", value: value });
+			},
+		},
+	],
+	[
+        "Object",
+        {
+            deserialize: (value: Record<string, { type: string, value: any }>) => {
+                const resultValue: Record<string, unknown> = {};
+                value && Object.entries(value).forEach(([key, values]) => {
+                    const { type, value } = values;
+                    if (type !== "Object" && typeOperations.has(type)) {
+                        resultValue[key] = typeOperations.get(type)!.deserialize(value);
+                    } else {
+                        resultValue[key] = JSON.parse(value);
+                    }
+                });
+                return resultValue;
+            },
+            serialize: (value: any) => {
+                const resultValue: Record<string, unknown> = {};
+                value && Object.entries(value).forEach(([key, value]) => {
+                    const type = Object.prototype.toString
+                        .call(value)
+                        .replace(/^\[object (.+)\]$/, "$1");
+                    if (type !== "Object" && typeOperations.has(type)) {
+                        resultValue[key] = JSON.parse(typeOperations.get(type)!.serialize(value));
+                    } else {
+                        resultValue[key] = {
+                            type,
+                            value: JSON.stringify(value),
+                        };
+                    }
+                });
+                return JSON.stringify({ type: "Object", value: resultValue });
+            },
+        },
+    ],
 ]);
