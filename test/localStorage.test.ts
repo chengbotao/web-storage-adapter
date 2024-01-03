@@ -13,19 +13,31 @@ describe("LocalStore", () => {
 		localStore.set("test2", "test2");
 		expect(localStore.length).toBe(2);
 	});
+	test("clear", () => {
+		localStore.set("npm", "botaocheng");
+		localStore.set("pack", "@manzhixing/web-storage-adapter");
+		localStore.clear();
+		expect(localStore.length).toBe(0);
+	});
 	test("key", () => {
 		localStore.set("test", "test");
 		localStore.set("test2", "test2");
-		expect(localStore.key(1)).toBe("test2");
+		expect(localStore.key(0)).toBe("test");
 	});
 	test("remove", () => {
 		localStore.set("test", "test");
+		localStore.set("test2", "test2");
 		localStore.remove("test");
+		expect(localStore.length).toBe(1);
+		expect(localStore.key(0)).toBe("test2");
 		expect(localStore.get("test")).toEqual(null);
 	});
 	test("removeItem", () => {
 		localStore.set("test", "test");
+		localStore.set("test2", "test2");
 		localStore.removeItem("test");
+		expect(localStore.length).toBe(1);
+		expect(localStore.key(0)).toBe("test2");
 		expect(localStore.get("test")).toEqual(null);
 	});
 	test("set-get", () => {
@@ -61,7 +73,7 @@ describe("LocalStore", () => {
 		const symbol = Symbol.for("test");
 		localStore.set("test", symbol);
 		expect(localStore.get("test")).toEqual(symbol);
-	})
+	});
 	test("PlainObject", () => {
 		const obj = {
 			test: "test",
@@ -69,22 +81,32 @@ describe("LocalStore", () => {
 			map: new Map([["test", "test"]]),
 			null: null,
 			undefined: undefined,
-			array: [1,2,3]
-		}
+			array: [1, 2, 3],
+		};
 		localStore.set("test", obj);
 		expect(localStore.get("test")).toEqual(obj);
 		expect(localStore.get("test").map.has("test")).toBe(true);
-		expect(localStore.get("test").array).toEqual([1,2,3]);
+		expect(localStore.get("test").array).toEqual([1, 2, 3]);
 		expect(localStore.get("test").null).toEqual(null);
-	})
+	});
 	test("Null", () => {
 		const obj = null;
 		localStore.set("test", obj);
 		expect(localStore.get("test")).toBeNull();
-	})
+	});
+	test("NaN", () => {
+		const nan = NaN;
+		localStore.set("test", nan);
+		expect(localStore.get("test")).toBe(NaN);
+	});
 	test("Undefined", () => {
 		const obj = undefined;
 		localStore.set("test", obj);
 		expect(localStore.get("test")).toBeUndefined();
-	})
+	});
+	test("Boolean", () => {
+		const bool = true;
+		localStore.set("test", bool);
+		expect(localStore.get("test")).toEqual(bool);
+	});
 });

@@ -32,9 +32,12 @@ export abstract class WebStorage {
 		}
 	}
 	set(key: string, value: unknown) {
-		const type = Object.prototype.toString
+		let type = Object.prototype.toString
 			.call(value)
 			.replace(/^\[object (.+)\]$/, "$1");
+		if (type === "Number") {
+			type = isNaN(value as number) ? "NaN" : "Number";
+		}
 		if (typeOperations.has(type)) {
 			value = typeOperations.get(type)!.serialize(value);
 		} else {
