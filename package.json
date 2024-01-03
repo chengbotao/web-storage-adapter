@@ -1,6 +1,6 @@
 {
   "name": "@manzhixing/web-storage-adapter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "用于适配 Web 存储的适配器, 将 LocalStorage 和 SessionStorage 的接口转换为统一的接口, 以便于使用和管理",
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",

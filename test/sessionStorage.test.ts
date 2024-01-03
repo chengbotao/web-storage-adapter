@@ -13,19 +13,31 @@ describe("SessionStore", () => {
 		sessionStore.set("test2", "test2");
 		expect(sessionStore.length).toBe(2);
 	});
+	test("clear", () => {
+		sessionStore.set("npm", "botaocheng");
+		sessionStore.set("pack", "@manzhixing/web-storage-adapter");
+		sessionStore.clear();
+		expect(sessionStore.length).toBe(0);
+	});
 	test("key", () => {
 		sessionStore.set("test", "test");
 		sessionStore.set("test2", "test2");
-		expect(sessionStore.key(1)).toBe("test2");
+		expect(sessionStore.key(0)).toBe("test");
 	});
 	test("remove", () => {
 		sessionStore.set("test", "test");
+		sessionStore.set("test2", "test2");
 		sessionStore.remove("test");
+		expect(sessionStore.length).toBe(1);
+		expect(sessionStore.key(0)).toBe("test2");
 		expect(sessionStore.get("test")).toEqual(null);
 	});
 	test("removeItem", () => {
 		sessionStore.set("test", "test");
+		sessionStore.set("test2", "test2");
 		sessionStore.removeItem("test");
+		expect(sessionStore.length).toBe(1);
+		expect(sessionStore.key(0)).toBe("test2");
 		expect(sessionStore.get("test")).toEqual(null);
 	});
 	test("set-get", () => {
@@ -61,7 +73,7 @@ describe("SessionStore", () => {
 		const symbol = Symbol.for("test");
 		sessionStore.set("test", symbol);
 		expect(sessionStore.get("test")).toEqual(symbol);
-	})
+	});
 	test("PlainObject", () => {
 		const obj = {
 			test: "test",
@@ -69,22 +81,32 @@ describe("SessionStore", () => {
 			map: new Map([["test", "test"]]),
 			null: null,
 			undefined: undefined,
-			array: [1,2,3]
-		}
+			array: [1, 2, 3],
+		};
 		sessionStore.set("test", obj);
 		expect(sessionStore.get("test")).toEqual(obj);
 		expect(sessionStore.get("test").map.has("test")).toBe(true);
-		expect(sessionStore.get("test").array).toEqual([1,2,3]);
+		expect(sessionStore.get("test").array).toEqual([1, 2, 3]);
 		expect(sessionStore.get("test").null).toEqual(null);
-	})
+	});
 	test("Null", () => {
 		const obj = null;
 		sessionStore.set("test", obj);
 		expect(sessionStore.get("test")).toBeNull();
-	})
+	});
+	test("NaN", () => {
+		const nan = NaN;
+		sessionStore.set("test", nan);
+		expect(sessionStore.get("test")).toBe(NaN);
+	});
 	test("Undefined", () => {
 		const obj = undefined;
 		sessionStore.set("test", obj);
 		expect(sessionStore.get("test")).toBeUndefined();
-	})
+	});
+	test("Boolean", () => {
+		const bool = true;
+		sessionStore.set("test", bool);
+		expect(sessionStore.get("test")).toEqual(bool);
+	});
 });

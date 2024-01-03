@@ -48,11 +48,11 @@ export const typeOperations: Map<string, TypeOperation> = new Map([
 		},
 	],
 	[
-		"Null",
+		"NaN",
 		{
-			deserialize: (value: unknown) => null,
+			deserialize: (value: unknown) => NaN,
 			serialize: (value: unknown) => {
-				return JSON.stringify({ type: "Null", value: value });
+				return JSON.stringify({ type: "NaN", value: value });
 			},
 		},
 	],
