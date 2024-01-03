@@ -66,8 +66,25 @@ describe("SessionStore", () => {
 		const obj = {
 			test: "test",
 			test2: "test2",
+			map: new Map([["test", "test"]]),
+			null: null,
+			undefined: undefined,
+			array: [1,2,3]
 		}
 		sessionStore.set("test", obj);
 		expect(sessionStore.get("test")).toEqual(obj);
+		expect(sessionStore.get("test").map.has("test")).toBe(true);
+		expect(sessionStore.get("test").array).toEqual([1,2,3]);
+		expect(sessionStore.get("test").null).toEqual(null);
+	})
+	test("Null", () => {
+		const obj = null;
+		sessionStore.set("test", obj);
+		expect(sessionStore.get("test")).toBeNull();
+	})
+	test("Undefined", () => {
+		const obj = undefined;
+		sessionStore.set("test", obj);
+		expect(sessionStore.get("test")).toBeUndefined();
 	})
 });

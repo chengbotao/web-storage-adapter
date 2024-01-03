@@ -66,8 +66,25 @@ describe("LocalStore", () => {
 		const obj = {
 			test: "test",
 			test2: "test2",
+			map: new Map([["test", "test"]]),
+			null: null,
+			undefined: undefined,
+			array: [1,2,3]
 		}
 		localStore.set("test", obj);
 		expect(localStore.get("test")).toEqual(obj);
+		expect(localStore.get("test").map.has("test")).toBe(true);
+		expect(localStore.get("test").array).toEqual([1,2,3]);
+		expect(localStore.get("test").null).toEqual(null);
+	})
+	test("Null", () => {
+		const obj = null;
+		localStore.set("test", obj);
+		expect(localStore.get("test")).toBeNull();
+	})
+	test("Undefined", () => {
+		const obj = undefined;
+		localStore.set("test", obj);
+		expect(localStore.get("test")).toBeUndefined();
 	})
 });
