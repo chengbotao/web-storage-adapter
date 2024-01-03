@@ -21,7 +21,7 @@ export abstract class WebStorage {
 	get(key: string) {
 		const data = JSON.parse(this.storage.getItem(key)!);
 		if (data) {
-			const {type, value} = data;
+			const { type, value } = data;
 			if (typeOperations.has(type)) {
 				return typeOperations.get(type)!.deserialize(value);
 			} else {
@@ -32,25 +32,27 @@ export abstract class WebStorage {
 		}
 	}
 	set(key: string, value: unknown) {
-		const type = Object.prototype.toString.call(value).replace(/^\[object (.+)\]$/, "$1");
+		const type = Object.prototype.toString
+			.call(value)
+			.replace(/^\[object (.+)\]$/, "$1");
 		if (typeOperations.has(type)) {
 			value = typeOperations.get(type)!.serialize(value);
 		} else {
-			value = JSON.stringify({type,value});
+			value = JSON.stringify({ type, value });
 		}
 		this.storage.setItem(key, value as string);
 	}
 	remove(key: string) {
 		this.storage.removeItem(key);
 	}
+	clear() {
+		this.storage.clear();
+	}
+	key(index: number) {
+		return this.storage.key(index);
+	}
 	get length() {
 		return this.storage.length;
-	}
-	get clear() {
-		return this.storage.clear;
-	}
-	get key() {
-		return this.storage.key;
 	}
 	get getItem() {
 		return this.get;

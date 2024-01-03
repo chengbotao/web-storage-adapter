@@ -1,3 +1,7 @@
+/*
+ * @Author: Chengbotao
+ * @Contact: https://github.com/chengbotao
+ */
 interface TypeOperation {
 	deserialize(value: unknown): unknown;
 	serialize(value: unknown): string;
@@ -28,18 +32,18 @@ export const typeOperations: Map<string, TypeOperation> = new Map([
 	[
 		"Symbol",
 		{
-			deserialize: (value: symbol) => Symbol.keyFor(value),
-			serialize: (value: string) => {
-				return JSON.stringify({ type: "Symbol", value: Symbol.for(value) });
+			deserialize: (value: string) => Symbol.for(value),
+			serialize: (value: symbol) => {
+				return JSON.stringify({ type: "Symbol", value: Symbol.keyFor(value) });
 			},
 		},
 	],
 	[
 		"BigInt",
 		{
-			deserialize: (value: bigint) => value.toString(),
+			deserialize: (value: bigint) => BigInt(value),
 			serialize: (value: string | number | bigint | boolean) => {
-				return JSON.stringify({ type: "BigInt", value: BigInt(value) });
+				return JSON.stringify({ type: "BigInt", value: value.toString() });
 			},
 		},
 	],

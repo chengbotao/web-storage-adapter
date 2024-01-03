@@ -7,8 +7,10 @@ enum StorageType {
 	Local = "local",
 	Session = "session",
 }
-export class LocalStore extends WebStorage {
+class LocalStore extends WebStorage {
 	constructor() {
 		super(StorageType.Local);
 	}
 }
+
+export const localStore = new LocalStore();
