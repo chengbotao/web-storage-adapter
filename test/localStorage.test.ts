@@ -109,4 +109,10 @@ describe("LocalStore", () => {
 		localStore.set("test", bool);
 		expect(localStore.get("test")).toEqual(bool);
 	});
+	test("localStorage.setItem--localStore.get", () => {
+		localStorage.setItem("test", "test");
+		localStorage.setItem("test2", JSON.stringify({ test: "test2" }));
+		expect(localStore.get("test")).toEqual("test");
+		expect(localStore.get("test2")).toEqual({ test: "test2" });
+	})
 });

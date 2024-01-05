@@ -19,24 +19,26 @@ export abstract class WebStorage {
 			storageType === StorageType.Local ? localStorage : sessionStorage;
 	}
 	get(key: string) {
-		const data = JSON.parse(this.storage.getItem(key)!);
-		if (data) {
-			const { type, value } = data;
+		const data = this.storage.getItem(key);
+		if (!data || !/^\{.*\}$/.test(data)) return data;
+
+		const { type, value, ...remainingKeys } = JSON.parse(data);
+		if (Object.keys(remainingKeys).length === 0 && type) {
 			if (typeOperations.has(type)) {
 				return typeOperations.get(type)!.deserialize(value);
 			} else {
 				return value;
 			}
 		} else {
-			return data;
+			return JSON.parse(data);
 		}
 	}
 	set(key: string, value: unknown) {
 		let type = Object.prototype.toString
 			.call(value)
 			.replace(/^\[object (.+)\]$/, "$1");
-		if (type === "Number") {
-			type = isNaN(value as number) ? "NaN" : "Number";
+		if (typeof value === "number") {
+			type = isNaN(value) ? "NaN" : "Number";
 		}
 		if (typeOperations.has(type)) {
 			value = typeOperations.get(type)!.serialize(value);
