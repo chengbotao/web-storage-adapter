@@ -2,7 +2,7 @@
  * @Author: Chengbotao
  * @Contact: https://github.com/chengbotao
  */
-interface TypeOperation {
+export interface TypeOperation {
 	deserialize(value: unknown): unknown;
 	serialize(value: unknown): string;
 }

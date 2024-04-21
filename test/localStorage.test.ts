@@ -115,4 +115,15 @@ describe("LocalStore", () => {
 		expect(localStore.get("test")).toEqual("test");
 		expect(localStore.get("test2")).toEqual({ test: "test2" });
 	})
+	test("addTypeOperation", () => {
+		// 添加自定义的序列化和反序列化的类型选项
+		localStore.addTypeOperation('Date', {
+			serialize: (date: Date) => date.toISOString(),
+			deserialize: (str: string) => new Date(str),
+		});
+		// 设置值
+		const date = new Date("2024-4-21");
+		localStore.set('date', date);
+		expect(localStore.get("date")).toEqual("2024-04-20T16:00:00.000Z");
+	})
 });

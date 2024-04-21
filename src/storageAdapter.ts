@@ -3,7 +3,7 @@
  * @Contact: https://github.com/chengbotao
  */
 
-import { typeOperations } from "./typeOperationsMap";
+import { typeOperations, TypeOperation } from "./typeOperationsMap";
 
 // https://developer.mozilla.org/zh-CN/docs/Web/API/Storage
 
@@ -17,6 +17,9 @@ export abstract class WebStorage {
 	constructor(storageType: StorageType) {
 		this.storage =
 			storageType === StorageType.Local ? localStorage : sessionStorage;
+	}
+	addTypeOperation(type: string, operations: TypeOperation) {
+		typeOperations.set(type, operations);
 	}
 	get(key: string) {
 		const data = this.storage.getItem(key);

@@ -1,3 +1,8 @@
+interface TypeOperation {
+    deserialize(value: unknown): unknown;
+    serialize(value: unknown): string;
+}
+
 declare enum StorageType {
     Local = "local",
     Session = "session"
@@ -5,6 +10,7 @@ declare enum StorageType {
 declare abstract class WebStorage {
     private storage;
     constructor(storageType: StorageType);
+    addTypeOperation(type: string, operations: TypeOperation): void;
     get(key: string): any;
     set(key: string, value: unknown): void;
     remove(key: string): void;
